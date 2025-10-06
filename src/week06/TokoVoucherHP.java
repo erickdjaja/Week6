@@ -245,3 +245,105 @@ private static void pesanBarang() {
     System.out.println("Berhasil dipesan");
 }
 
+private static void lihatPesanan() {
+    if (daftarPesanan.isEmpty()) {
+        System.out.println("\nBelum ada pesanan");
+        return;
+    }
+
+    System.out.println("\n-----------Menu Toko Voucher & HP-----------");
+    System.out.println("1. Pesan Barang");
+    System.out.println("2. Lihat Pesanan");
+    System.out.println("3. Barang Baru");
+    System.out.println("Pilihan : 2");
+    System.out.println("Daftar Pesanan Toko Multiguna");
+
+    for (Order order : daftarPesanan) {
+        System.out.println("ID\t: " + order.getId());
+        
+        if (order.getHandphone() != null) {
+            Handphone hp = order.getHandphone();
+            System.out.println("Nama\t: " + hp.getNama());
+            System.out.println("Jumlah\t: " + order.getJumlah());
+            System.out.println("Total\t: " + (int)(hp.getHarga() * order.getJumlah()));
+        } else if (order.getVoucher() != null) {
+            Voucher v = order.getVoucher();
+            System.out.println("Nama\t: " + v.getNama());
+            System.out.println("Jumlah\t: " + order.getJumlah());
+            System.out.println("Total\t: " + (int)(v.getHargaJual() * order.getJumlah()));
+        }
+        System.out.println("------------------------------------------");
+    }
+}
+
+private static void barangBaru() {
+    System.out.println("\n-----------Menu Toko Voucher & HP-----------");
+    System.out.println("1. Pesan Barang");
+    System.out.println("2. Lihat Pesanan");
+    System.out.println("3. Barang Baru");
+    System.out.print("Pilihan : 3\n");
+    System.out.print("Voucher / Handphone (V/H): ");
+    
+    String jenis = scanner.nextLine();
+
+    System.out.print("Nama : ");
+    String nama = scanner.nextLine();
+
+    System.out.print("Harga : ");
+    double harga = scanner.nextDouble();
+
+    System.out.print("Stok : ");
+    int stok = scanner.nextInt();
+    scanner.nextLine();
+
+    if (jenis.equalsIgnoreCase("V")) {
+        System.out.print("PPN : ");
+        double pajak = scanner.nextDouble();
+        scanner.nextLine();
+
+        int id = daftarBarang.size() + 1;
+        daftarBarang.add(new Voucher(id, nama, harga, stok, pajak));
+        System.out.println("Voucher telah berhasil diinput");
+    } else if (jenis.equalsIgnoreCase("H")) {
+        System.out.print("Warna : ");
+        String warna = scanner.nextLine();
+
+        int id = daftarBarang.size() + 1;
+        daftarBarang.add(new Handphone(id, nama, harga, stok, warna));
+        System.out.println("Handphone telah berhasil diinput");
+    } else {
+        System.out.println("Pemilihan barang tidak sesuai");
+    }
+}
+
+private static void tampilkanDaftarBarang(int jenis) {
+    System.out.println();
+    for (Barang barang : daftarBarang) {
+        if (jenis == 1 && barang instanceof Handphone) {
+            Handphone hp = (Handphone) barang;
+            System.out.println("ID\t: " + hp.getId());
+            System.out.println("Nama\t: " + hp.getNama());
+            System.out.println("Stock\t: " + hp.getStok());
+            System.out.println("Harga\t: " + (int)hp.getHarga());
+            System.out.println();
+        } else if (jenis == 2 && barang instanceof Voucher) {
+            Voucher v = (Voucher) barang;
+            System.out.println("ID\t: " + v.getId());
+            System.out.println("Nama\t: " + v.getNama());
+            System.out.println("Nominal\t: " + (int)v.getHarga());
+            System.out.println("Stock\t: " + v.getStok());
+            System.out.println("Harga\t: " + (int)v.getHargaJual());
+            System.out.println();
+        }
+    }
+}
+
+private static Barang cariBarang(int id) {
+    for (Barang barang : daftarBarang) {
+        if (barang.getId() == id) {
+            return barang;
+        }
+    }
+    return null;
+}
+}
