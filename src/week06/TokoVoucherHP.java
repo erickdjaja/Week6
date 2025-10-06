@@ -109,3 +109,42 @@ public int getJumlah() {
 }
 }
 
+//Main Class
+public class TokoVoucherHP {
+private static ArrayList<Barang> daftarBarang = new ArrayList<>();
+private static ArrayList<Order> daftarPesanan = new ArrayList<>();
+private static Scanner scanner = new Scanner(System.in);
+
+public static void main(String[] args) {
+   // Inisialisasi data barang
+   daftarBarang.add(new Handphone(1, "Samsung S9+ Hitam", 14499000, 10, "Hitam"));
+   daftarBarang.add(new Handphone(2, "iPhone X Hitam", 18999000, 10, "Hitam"));
+   daftarBarang.add(new Voucher(1, "Google Play", 20000, 100, 0.1));
+   daftarBarang.add(new Handphone(3, "Oppo F9", 3999000, 10, "Hitam"));
+
+   boolean running = true;
+   while (running) {
+       tampilkanMenuUtama();
+       int pilihan = scanner.nextInt();
+       scanner.nextLine(); // consume newline
+
+       switch (pilihan) {
+           case 1:
+               pesanBarang();
+               break;
+           case 2:
+               lihatPesanan();
+               break;
+           case 3:
+               barangBaru();
+               break;
+           case 0:
+               running = false;
+               System.out.println("Terima kasih!");
+               break;
+           default:
+               System.out.println("Pilihan tidak valid!");
+       }
+   }
+}
+
